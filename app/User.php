@@ -18,7 +18,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email','role','address','telephone','birthday','gender'
+        
+        'name', 'password', 'email','role','address','telephone','birthday','gender'
     ];
 
     /**
@@ -27,7 +28,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password'
     ];
 
     public function header_transaction(){
