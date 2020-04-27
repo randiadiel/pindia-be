@@ -29,4 +29,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function header_transaction(){
+        $this->hasOne('App\HeaderTransaction');
+    }
+
+    public function shop(){
+        $this->hasOne('App\Shop');
+    }
 }
