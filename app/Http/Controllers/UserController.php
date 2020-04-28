@@ -24,6 +24,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function store(Request $request)
     {
        $match = User::where('email', '=', $request->email)->first();
@@ -45,7 +48,7 @@ class UserController extends Controller
 
         return response()->json([
            'status' => 200,
-           'message' => 'Successfully create new User!',
+           'message' => 'You have successfully registered',
            'data' => [
             'id' => $userBaru->id,
             'email' => $userBaru->email,

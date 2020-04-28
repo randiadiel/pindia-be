@@ -15,4 +15,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/api/users/create','UserController@store');
+$router->post('/api/users','UserController@store');
+$router->post('/api/login','AuthController@login');
+
