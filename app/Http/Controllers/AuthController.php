@@ -80,10 +80,11 @@ class AuthController extends Controller
             'message' => 'You have sucessfully login',
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => '3600'
+            'expires_in' => '3600',
+            'data' => auth()->user()
         ]);
     }
- q
+ 
     
 
 }
