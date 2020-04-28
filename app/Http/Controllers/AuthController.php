@@ -28,7 +28,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Username or password not found', 'status' => 401], 401);
+            return response()->json(['message' => 'Username or password not found', 'status' => 401], 401);
         }
 
         return $this->respondWithToken($token);
@@ -83,7 +83,7 @@ class AuthController extends Controller
             'expires_in' => '3600'
         ]);
     }
-
+ q
     
 
 }
