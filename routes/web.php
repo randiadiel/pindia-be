@@ -16,6 +16,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('/login','AuthController@login');
 
+    $router->group(['middleware' => ['jwt.verify','verify.seller']], function () use ($router){
+        $router->get('/productTypes','ProductTypeController@index');
+    });
+
     $router->group(['prefix' => 'users'], function () use ($router) {
         $router->post('/','UserController@store');
         $router->group(['middleware' => 'jwt.verify'], function () use ($router){
