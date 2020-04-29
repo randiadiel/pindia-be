@@ -75,19 +75,13 @@ class ShopController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = Shop::where('user_id','=',$user->id)->first();
-        
-        if($cariToko == null){
-            return response()->json([
-                'status' => 401,
-                'message' => "You don't have a shop"
-            ]);
-        }else{
+       
             return response()->json([
                 'status' => 200,
                 'message' => 'Successfully get shop',
                 'data' => $cariToko
             ]);
-        }
+        
     }
 
     /**
@@ -102,29 +96,18 @@ class ShopController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = Shop::where('user_id','=',$user->id)->first();
 
-
-        if($cariToko == null){
-            return response()->json([
-                'status' => 401,
-                'message' => "You don't have a shop"
-            ]);
-        }
-
         $cariToko->update([
             'name' => $request->name,
             'address' => $request->address
         ]);
 
-
-
         $cariToko->save();
 
-       
-            return response()->json([
-                'status' => 200,
-                'message' => 'Successfully updated your shop',
-                'data' => $cariToko
-            ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully updated your shop',
+            'data' => $cariToko
+        ]);
         
 
     }
@@ -141,18 +124,12 @@ class ShopController extends Controller
 
         $cariToko = Shop::where('user_id','=',$user->id)->first();
 
-        if($cariToko == null){
-            return response()->json([
-                'status' => 401,
-                'message' => "You don't have a shop"
-            ]);
-        }else{
             $cariToko->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'You have successfully deleted a shop'
             ]);
-        }
+        
 
     }
 }

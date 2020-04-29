@@ -23,7 +23,8 @@ class HaveSellerAccessMiddleware
         if($user->role != 2){
             return response()->json([
                 'status' => 403,
-                'message' => 'Please create a shop first'
+                'message' => 'Please create a shop first',
+                'to' => '/shop/create'
             ]);
         }else{
 

@@ -23,10 +23,13 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'shops', 'middleware' => 'jwt.verify'], function () use ($router) {
-        $router->get('/','ShopController@show');
         $router->post('/','ShopController@store');
-        $router->patch('/','ShopController@update');
-        $router->delete('/','ShopController@destroy');
+        $router->group(['middleware' => 'verify.seller'],function () use ($router){
+            $router->get('/','ShopController@show');
+            $router->patch('/','ShopController@update');
+            $router->delete('/','ShopController@destroy');
+        });
+            
     });
 
 });
