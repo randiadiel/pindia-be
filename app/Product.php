@@ -19,7 +19,7 @@ class Product extends Model
     }
 
     public function product_type(){
-        $this->hasOne('App\ProductType');
+        $this->hasOne('App\ProductType');p
     }
 
     public function shop(){

@@ -17,9 +17,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/login','AuthController@login');
 
     $router->group(['prefix' => 'users'], function () use ($router) {
-        $router->get('/','AuthController@me');
         $router->post('/','UserController@store');
-
+        $router->group(['middleware' => 'jwt.verify'], function () use ($router){
+            $router->get('/','AuthController@me');
+            $router->patch('/','UserController@update');
+        });
     });
 
     $router->group(['prefix' => 'shops', 'middleware' => 'jwt.verify'], function () use ($router) {
