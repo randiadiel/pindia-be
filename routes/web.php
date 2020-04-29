@@ -17,13 +17,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/login','AuthController@login');
 
     $router->group(['prefix' => 'users'], function () use ($router) {
+        $router->get('/','AuthController@me');
         $router->post('/','UserController@store');
 
     });
 
     $router->group(['prefix' => 'shops', 'middleware' => 'jwt.verify'], function () use ($router) {
-        $router->get('/','ShopController@index');
+        $router->get('/','ShopController@show');
         $router->post('/','ShopController@store');
+        $router->patch('/','ShopController@update');
         $router->delete('/','ShopController@destroy');
     });
 

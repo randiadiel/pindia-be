@@ -15,21 +15,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $user = JWTAuth::parseToken()->authenticate();
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
-        
-        if($cariToko == null){
-            return response()->json([
-                'status' => 401,
-                'message' => "You don't have a shop"
-            ]);
-        }else{
-            return response()->json([
-                'status' => 200,
-                'message' => 'Successfully get shop',
-                'data' => $cariToko
-            ]);
-        }
+      
         
 
     }
@@ -85,9 +71,23 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user = JWTAuth::parseToken()->authenticate();
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        
+        if($cariToko == null){
+            return response()->json([
+                'status' => 401,
+                'message' => "You don't have a shop"
+            ]);
+        }else{
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully get shop',
+                'data' => $cariToko
+            ]);
+        }
     }
 
     /**
@@ -97,9 +97,36 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = JWTAuth::parseToken()->authenticate();
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+
+
+        if($cariToko == null){
+            return response()->json([
+                'status' => 401,
+                'message' => "You don't have a shop"
+            ]);
+        }
+
+        $cariToko->update([
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+
+
+        $cariToko->save();
+
+       
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully updated your shop',
+                'data' => $cariToko
+            ]);
+        
+
     }
 
     /**
