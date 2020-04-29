@@ -33,9 +33,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
     
         $user = JWTAuth::parseToken()->authenticate();
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
 
         $cariToko = 'harhar';
         $newProduct = Product::create([
