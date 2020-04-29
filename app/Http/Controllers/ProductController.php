@@ -66,7 +66,19 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $getProduct = Product::where('id',$id)->first();
+        if($getProduct == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'The product you are trying to find is not available'
+            ]);
+        }else{
+            return response()->json([
+                'status' => 200,
+                'message' => 'Product found!',
+                'data' => $getProduct
+            ]);
+        }
     }
 
     /**
