@@ -92,8 +92,24 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+
+        if($cariToko == null){
+            return response()->json([
+                'status' => 401,
+                'message' => "You don't have a shop"
+            ]);
+        }else{
+            $cariToko->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'You have successfully deleted a shop'
+            ]);
+        }
+
     }
 }
