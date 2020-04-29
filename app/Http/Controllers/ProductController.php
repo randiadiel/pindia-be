@@ -139,4 +139,18 @@ class ProductController extends Controller
             'message' => 'Product Successfully deleted' 
         ]);
     }
+
+    public function getShopProducts(){
+        $user = JWTAuth::parseToken()->authenticate();
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+
+       $allRelatedProduct = $cariToko->products();
+       
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully retrieve all related shop products',
+            'data' => $allRelatedProduct
+        ]);
+
+    }
 }
