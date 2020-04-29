@@ -27,7 +27,18 @@ class ShopController extends Controller
     public function store(Request $request)
     {
 
+
         $user = JWTAuth::parseToken()->authenticate();
+
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+
+        if($cariToko != null){
+            return response()->json([
+                'status' => 401,
+                'message' => 'You already have a shop!'
+            ]);
+        }
+
 
         $shopBaru = Shop::create([
             'user_id' => $user->id,
