@@ -22,7 +22,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $allProduct = Product::all();
+        return response()->json([
+            'status' => 200,
+            'message' => 'All products successfully retrieved',
+            'data' => $allProduct
+        ]);
     }
 
     /**
