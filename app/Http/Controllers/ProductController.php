@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Shop;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+
 
 class ProductController extends Controller
 {
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -25,11 +33,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+    
         $user = JWTAuth::parseToken()->authenticate();
 
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
-
+        $cariToko = 'harhar';
         $newProduct = Product::create([
             'productType_id' => $request->productType_id,
             'shop_id' => $cariToko->id,
