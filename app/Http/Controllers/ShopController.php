@@ -15,7 +15,23 @@ class ShopController extends Controller
      */
     public function index()
     {
-        //
+        $user = JWTAuth::parseToken()->authenticate();
+        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        
+        if($cariToko == null){
+            return response()->json([
+                'status' => 401,
+                'message' => "You don't have a shop"
+            ]);
+        }else{
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully get shop',
+                'data' => $cariToko
+            ]);
+        }
+        
+
     }
 
     /**

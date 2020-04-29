@@ -22,6 +22,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'shops', 'middleware' => 'jwt.verify'], function () use ($router) {
+        $router->get('/','ShopController@index');
         $router->post('/','ShopController@store');
         $router->delete('/','ShopController@destroy');
     });
