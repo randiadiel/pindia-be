@@ -33,17 +33,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-    
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = Shop::where('user_id','=',$user->id)->first();
 
-        $cariToko = 'harhar';
         $newProduct = Product::create([
             'productType_id' => $request->productType_id,
             'shop_id' => $cariToko->id,
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description
+        ]);
+        $newProduct->save();
+
+        $databaseProduct = Product::where('id',$newProduct->id)->first();
+        return response()->json([
+            'status' => '200',
+            'message' => 'You have successfully create a Product',
+            'data' => $databaseProduct
         ]);
     }
 
