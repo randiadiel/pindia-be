@@ -90,8 +90,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // nanti user lain yang gk punya shop ini bisa update product yang bukan punya dia (takutnya)
 
         $productOld = Product::where('id',$id)->first();
+
+        if($productOld == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'The product you are trying to find is not available'
+            ]);
+        }
+
         $productOld->update([
             'productType_id' => $request->productType_id,
             'name' => $request->name,
@@ -110,11 +119,24 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $ids
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+
+        $getProduct= Product::where('id',$id)->first();
+
+        if($getProduct == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'The product you are trying to find is not available'
+            ]);
+        }
+        $getProduct->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Product Successfully deleted' 
+        ]);
     }
 }
