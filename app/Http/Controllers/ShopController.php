@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shop;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ShopController extends Controller
 {
@@ -25,7 +26,30 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        
+
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $shopBaru = Shop::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+        $shopBaru->save();
+
+        $user->role = 2;
+        $user->save();
+
+        return response()->json([
+           'status' => 200,
+           'message' => 'You have successfully created a shop!',
+           'data' => [
+            'id' => $shopBaru->id,
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'address' => $request->address
+           ] 
+        ]);
     }
 
     /**
