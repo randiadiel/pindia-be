@@ -90,7 +90,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $productOld = Product::where('id',$id)->first();
+        $productOld->update([
+            'productType_id' => $request->productType_id,
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description
+        ]);
+        $productOld->save();
+        $productOld->productType_id = (int)$productOld->productType_id;
+        return response()->json([
+            'status' => 200,
+            'message' => 'Product successfully updated',
+            'data' => $productOld
+        ]);
     }
 
     /**
