@@ -43,7 +43,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/{id}','ProductController@show');
         $router->get('/','ProductController@index');
 
-        $router->get('/shops','ProductController@getShopProducts');
+        $router->get('/shops','ProductController@getShopProducts'); 
 
         $router->group(['middleware' => ['verify.seller','jwt.verify']],function () use ($router){
             $router->post('/','ProductController@store');

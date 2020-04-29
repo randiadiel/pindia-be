@@ -40,7 +40,6 @@ class ProductController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = Shop::where('user_id','=',$user->id)->first();
-
         $newProduct = Product::create([
             'productType_id' => $request->productType_id,
             'shop_id' => $cariToko->id,
@@ -144,7 +143,13 @@ class ProductController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = Shop::where('user_id','=',$user->id)->first();
 
-       $allRelatedProduct = $cariToko->products();
+        
+       $allRelatedProduct = Product::all()->where('shop_id',$cariToko->id);
+    
+       $allRelatedProductArr = $allRelatedProduct;
+       foreach($allRelatedProductArr as $product){
+           $product->shop_name = Shop::where('id',$product->shop_id)->first()->name; 
+       }
        
         return response()->json([
             'status' => 200,
