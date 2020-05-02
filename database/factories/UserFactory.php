@@ -3,7 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
-use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +16,17 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(User::class, function () {
+    $faker = Faker\Factory::create('id_ID');
+    $gender = ['male','female'];
     return [
         'name' => $faker->name,
-        'email' => $faker->email,
+        'email' => $faker->unique()->safeEmail,
+        'password' => Hash::make('12345678'),
+        'role' => 2,
+        'address' => $faker->address,
+        'telephone' => $faker->phoneNumber,
+        'birthday' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'gender' => $gender[rand(0,1)]
     ];
 });

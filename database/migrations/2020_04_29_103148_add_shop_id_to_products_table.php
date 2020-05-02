@@ -17,7 +17,7 @@ class AddShopIdToProductsTable extends Migration
             $table->foreignId('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->string('name');
             $table->integer('price');
-            $table->string('description');
+            $table->string('description',400);
         });
     }
 

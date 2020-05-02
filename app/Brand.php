@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     protected $fillable = [
-        'productType_id', 'name'
+        'product_type_id', 'name'
     ];
 
     public function productType(){
-        $this->hasOne("App\ProductType");
+        $this->hasMany("App\ProductType");
     }
 }

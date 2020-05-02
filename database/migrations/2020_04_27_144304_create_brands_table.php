@@ -15,7 +15,7 @@ class CreateBrandsTable extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productType_id')->references('id')->on('product_types')->onDelete('cascade');
+            $table->foreignId('product_type_id')->references('id')->on('product_types')->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });
