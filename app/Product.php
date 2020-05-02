@@ -25,4 +25,8 @@ class Product extends Model
     public function shop(){
         $this->belongsTo('App\Shop');
     }
+
+    public function brand(){
+        $this->hasOne('App\Brand');
+    }
 }

@@ -164,13 +164,17 @@ class ProductController extends Controller
 
     public function search(Request $request){
         $q =  $request->input('q');
-
+        $Brandlist = Brand::where('name','LIKE','%'.$q.'%');
+        $productBrandList = collect(new Product);
+        foreach($Brandlist as $brand){
+            $productBrandList->append(Product::where('brand_id',$brand->id)->get());
+        }
         $productList =  Product::where('name','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->get();
-        
+        $hasil = $productList->merge($productBrandList);
         return response()->json([
             'status' => 200,
             'message' => 'Displaying all items related to query',
-            'data' => $productList
+            'data' => $hasil
         ]);
     }
 }
