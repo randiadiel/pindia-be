@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use App\Product;
 use App\Shop;
 use Illuminate\Http\Request;
@@ -145,7 +146,9 @@ class ProductController extends Controller
 
         
        $allRelatedProduct = Product::all()->where('shop_id',$cariToko->id);
-    
+    //    $allRelatedProduct = $cariToko->products();
+    //     dd($allRelatedProduct);
+
        $allRelatedProductArr = $allRelatedProduct;
        foreach($allRelatedProductArr as $product){
            $product->shop_name = Shop::where('id',$product->shop_id)->first()->name; 
@@ -157,5 +160,17 @@ class ProductController extends Controller
             'data' => $allRelatedProduct
         ]);
 
+    }
+
+    public function search(Request $request){
+        $q =  $request->input('q');
+
+        $productList =  Product::where('name','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->get();
+        
+        return response()->json([
+            'status' => 200,
+            'message' => 'Displaying all items related to query',
+            'data' => $productList
+        ]);
     }
 }

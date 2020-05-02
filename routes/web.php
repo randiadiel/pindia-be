@@ -42,6 +42,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'products'], function () use ($router) {
         $router->get('/{id}','ProductController@show');
         $router->get('/','ProductController@index');
+        $router->get('/search','ProductController@search');
 
         $router->get('/shops','ProductController@getShopProducts'); 
 
