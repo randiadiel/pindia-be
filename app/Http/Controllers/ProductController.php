@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use App\Product;
 use App\Shop;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -164,11 +165,14 @@ class ProductController extends Controller
 
     public function search(Request $request){
         $q =  $request->input('q');
-        $Brandlist = Brand::where('name','LIKE','%'.$q.'%');
-        $productBrandList = collect(new Product);
+        $Brandlist = Brand::where('name','LIKE','%'.$q.'%')->get();
+        // dd($Brandlist);
+        $productBrandList = Collection::make(new Product);
+        // dd($productBrandList);
         foreach($Brandlist as $brand){
-            $productBrandList->append(Product::where('brand_id',$brand->id)->get());
+            $productBrandList = $productBrandList->merge(Product::where('brand_id',$brand->id)->get());
         }
+        // dd($productBrandList);
         $productList =  Product::where('name','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->get();
         $hasil = $productList->merge($productBrandList);
         return response()->json([
