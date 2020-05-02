@@ -64,7 +64,7 @@ class UserController extends Controller
        }else{
            return response()->json([
                'status' => 422,
-               'message' => 'Email has already registered'
+               'message' => 'Email has already been registered'
            ]);
        }
 

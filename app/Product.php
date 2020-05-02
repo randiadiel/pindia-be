@@ -11,22 +11,22 @@ class Product extends Model
     ];
 
     public function images(){
-        $this->hasMany('App\Image');
+       return $this->hasMany('App\Image');
     }
 
     public function detail_transactions(){
-        $this->belongsToMany('App\DetailTransaction');
+       return $this->belongsToMany('App\DetailTransaction');
     }
 
     public function product_type(){
-        $this->hasOne('App\ProductType');
+       return $this->hasOne('App\ProductType');
     }
 
     public function shop(){
-        $this->belongsTo('App\Shop');
+       return $this->belongsTo('App\Shop');
     }
 
     public function brand(){
-        $this->hasOne('App\Brand');
+       return $this->hasOne('App\Brand');
     }
 }

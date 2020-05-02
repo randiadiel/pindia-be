@@ -11,11 +11,11 @@ class DetailTransaction extends Model
  ];
 
  public function product(){
-     $this->hasOne('App\Product');
+    return $this->hasOne('App\Product');
  }
 
  public function header_transaction(){
-     $this->hasOne('App\HeaderTransaction');
+    return $this->hasOne('App\HeaderTransaction');
  }
     
 }

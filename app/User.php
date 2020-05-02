@@ -34,11 +34,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     public function header_transaction(){
-        $this->hasOne('App\HeaderTransaction');
+       return $this->hasOne('App\HeaderTransaction');
     }
 
     public function shop(){
-        $this->hasOne('App\Shop');
+       return $this->hasOne('App\Shop');
     }
 
 

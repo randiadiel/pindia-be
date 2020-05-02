@@ -32,7 +32,7 @@ class ShopController extends Controller
 
         $user = JWTAuth::parseToken()->authenticate();
 
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
 
         if($cariToko != null){
             return response()->json([
@@ -74,7 +74,7 @@ class ShopController extends Controller
     public function show()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
        
             return response()->json([
                 'status' => 200,
@@ -94,7 +94,7 @@ class ShopController extends Controller
     public function update(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
 
         $cariToko->update([
             'name' => $request->name,
@@ -122,7 +122,7 @@ class ShopController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
 
             $cariToko->delete();
             return response()->json([

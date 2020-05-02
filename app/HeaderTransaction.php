@@ -11,6 +11,6 @@ class HeaderTransaction extends Model
     ];
 
     public function detail_transaction(){
-        $this->hasOne('App\DetailTransaction');
+       return $this->hasOne('App\DetailTransaction');
     }
 }

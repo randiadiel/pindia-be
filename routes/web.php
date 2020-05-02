@@ -44,9 +44,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/','ProductController@index');
         $router->get('/search','ProductController@search');
 
-        $router->get('/shops','ProductController@getShopProducts'); 
-
         $router->group(['middleware' => ['verify.seller','jwt.verify']],function () use ($router){
+            $router->get('/shops','ProductController@getShopProducts'); 
             $router->post('/','ProductController@store');
             $router->patch('/{id}','ProductController@update');
             $router->delete('/{id}','ProductController@destroy');

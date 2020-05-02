@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
         $newProduct = Product::create([
             'productType_id' => $request->productType_id,
             'shop_id' => $cariToko->id,
@@ -143,16 +143,14 @@ class ProductController extends Controller
 
     public function getShopProducts(){
         $user = JWTAuth::parseToken()->authenticate();
-        $cariToko = Shop::where('user_id','=',$user->id)->first();
+        $cariToko = $user->shop;
 
-        
-       $allRelatedProduct = Product::all()->where('shop_id',$cariToko->id);
-    //    $allRelatedProduct = $cariToko->products();
-    //     dd($allRelatedProduct);
+       $allRelatedProduct = $cariToko->products;
+     
 
        $allRelatedProductArr = $allRelatedProduct;
        foreach($allRelatedProductArr as $product){
-           $product->shop_name = Shop::where('id',$product->shop_id)->first()->name; 
+           $product->shop_name = $product->shop->name; 
        }
        
         return response()->json([
@@ -166,13 +164,13 @@ class ProductController extends Controller
     public function search(Request $request){
         $q =  $request->input('q');
         $Brandlist = Brand::where('name','LIKE','%'.$q.'%')->get();
-        // dd($Brandlist);
+        
         $productBrandList = Collection::make(new Product);
-        // dd($productBrandList);
+
         foreach($Brandlist as $brand){
             $productBrandList = $productBrandList->merge(Product::where('brand_id',$brand->id)->get());
         }
-        // dd($productBrandList);
+
         $productList =  Product::where('name','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->get();
         $hasil = $productList->merge($productBrandList);
         return response()->json([

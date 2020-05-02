@@ -11,10 +11,10 @@ class Shop extends Model
     ];
 
     public function products(){
-        $this->hasMany('App\Product');
+        return $this->hasMany('App\Product');
     }
 
     public function users(){
-        $this->hasOne('App\User');
+        return $this->hasOne('App\User');
     }
 }

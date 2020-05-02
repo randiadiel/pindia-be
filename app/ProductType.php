@@ -11,10 +11,10 @@ class ProductType extends Model
     ];
 
     public function product(){
-        $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Product');
     }
 
     public function brand(){
-        $this->belongsTo('App\Brand');
+        return $this->belongsTo('App\Brand');
     }
 }
