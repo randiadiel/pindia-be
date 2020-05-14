@@ -16,20 +16,20 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('/login','AuthController@login');
 
-    $router->group(['middleware' => ['jwt.verify','verify.seller']], function () use ($router){
+    $router->group(['middleware' => ['verify.jwt','verify.seller']], function () use ($router){
         $router->get('/productTypes','ProductTypeController@index');
     });
 
     $router->group(['prefix' => 'users'], function () use ($router) {
         $router->post('/','UserController@store');
 
-        $router->group(['middleware' => 'jwt.verify'], function () use ($router){
+        $router->group(['middleware' => 'verify.jwt'], function () use ($router){
             $router->get('/','AuthController@me');
             $router->patch('/','UserController@update');
         });
     });
 
-    $router->group(['prefix' => 'shops', 'middleware' => 'jwt.verify'], function () use ($router) {
+    $router->group(['prefix' => 'shops', 'middleware' => 'verify.jwt'], function () use ($router) {
         $router->post('/','ShopController@store');
         $router->group(['middleware' => 'verify.seller'],function () use ($router){
             $router->get('/','ShopController@show');
@@ -44,15 +44,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/','ProductController@index');
         $router->get('/search','ProductController@search');
 
-        $router->group(['middleware' => ['verify.seller','jwt.verify']],function () use ($router){
-            $router->get('/shops','ProductController@getShopProducts'); 
+        $router->group(['middleware' => ['verify.seller','verify.jwt']],function () use ($router){
+            $router->get('/shops','ProductController@getShopProducts');
             $router->post('/','ProductController@store');
-            $router->patch('/{id}','ProductController@update');
-            $router->delete('/{id}','ProductController@destroy');
+            $router->group(['middleware' => 'verify.owner'],function() use ($router){
+                $router->patch('/{id}','ProductController@update');
+                $router->delete('/{id}','ProductController@destroy');
+            });
+
         });
 
     });
-            
+
 
 });
 

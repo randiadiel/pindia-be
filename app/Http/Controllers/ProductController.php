@@ -20,7 +20,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -36,7 +36,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -63,7 +63,7 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -87,11 +87,11 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        // nanti user lain yang gk punya shop ini bisa update product yang bukan punya dia (takutnya)
+        //! nanti user lain yang gk punya shop ini bisa update product yang bukan punya dia (takutnya)
 
         $productOld = Product::where('id',$id)->first();
 
@@ -121,7 +121,7 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $ids
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
@@ -137,7 +137,7 @@ class ProductController extends Controller
         $getProduct->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Product Successfully deleted' 
+            'message' => 'Product Successfully deleted'
         ]);
     }
 
@@ -146,13 +146,13 @@ class ProductController extends Controller
         $cariToko = $user->shop;
 
        $allRelatedProduct = $cariToko->products;
-     
+
 
        $allRelatedProductArr = $allRelatedProduct;
        foreach($allRelatedProductArr as $product){
-           $product->shop_name = $product->shop->name; 
+           $product->shop_name = $product->shop->name;
        }
-       
+
         return response()->json([
             'status' => 200,
             'message' => 'Successfully retrieve all related shop products',
@@ -164,7 +164,7 @@ class ProductController extends Controller
     public function search(Request $request){
         $q =  $request->input('q');
         $Brandlist = Brand::where('name','LIKE','%'.$q.'%')->get();
-        
+
         $productBrandList = Collection::make(new Product);
 
         foreach($Brandlist as $brand){
@@ -178,5 +178,10 @@ class ProductController extends Controller
             'message' => 'Displaying all items related to query',
             'data' => $hasil
         ]);
+    }
+
+    public function elasticSearch(Request $request){
+        $q = $request->input('q');
+
     }
 }

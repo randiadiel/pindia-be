@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-       $match = User::where('email', '=', $request->email)->first();
+       $match = User::where('email', $request->email)->first();
 
        if($match == null){
 
@@ -44,7 +44,7 @@ class UserController extends Controller
             'gender' => $request->gender,
             'role' =>  1
         ]);
-        
+
         $userBaru->save();
 
         return response()->json([
@@ -59,7 +59,7 @@ class UserController extends Controller
             'telephone' => $userBaru->telephone,
             'birthday' => $userBaru->birthday,
             'gender' => $userBaru->gender
-           ] 
+           ]
         ]);
        }else{
            return response()->json([
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $userOld = JWTAuth::parseToken()->authenticate();
-        
+
         $userOld->update([
             'name' => $request->name,
             'email' => $request->email,

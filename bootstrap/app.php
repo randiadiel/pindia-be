@@ -82,8 +82,9 @@ $app->middleware([
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'jwt.verify' => App\Http\Middleware\JwtMiddleware::class,
+    'verify.jwt' => App\Http\Middleware\JwtMiddleware::class,
     'verify.seller' => App\Http\Middleware\HaveSellerAccessMiddleware::class,
+    'verify.owner' => App\Http\Middleware\isUserShopOwner::class
 ]);
 
 /*
@@ -101,6 +102,8 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+$app->register(Cviebrock\LaravelElasticsearch\ServiceProvider::class);
+$app->configure('elasticsearch');
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

@@ -15,8 +15,8 @@ class ShopController extends Controller
      */
     public function index()
     {
-      
-        
+
+
 
     }
 
@@ -24,7 +24,7 @@ class ShopController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -61,7 +61,7 @@ class ShopController extends Controller
             'user_id' => $user->id,
             'name' => $request->name,
             'address' => $request->address
-           ] 
+           ]
         ]);
     }
 
@@ -69,19 +69,19 @@ class ShopController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show()
     {
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = $user->shop;
-       
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Successfully get shop',
                 'data' => $cariToko
             ]);
-        
+
     }
 
     /**
@@ -89,7 +89,7 @@ class ShopController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
@@ -108,7 +108,7 @@ class ShopController extends Controller
             'message' => 'Successfully updated your shop',
             'data' => $cariToko
         ]);
-        
+
 
     }
 
@@ -116,7 +116,7 @@ class ShopController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy()
     {
@@ -129,7 +129,7 @@ class ShopController extends Controller
                 'status' => 200,
                 'message' => 'You have successfully deleted a shop'
             ]);
-        
+
 
     }
 }
