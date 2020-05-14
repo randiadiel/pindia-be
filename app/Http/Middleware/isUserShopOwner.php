@@ -23,7 +23,7 @@ class isUserShopOwner
 
         if ($user->shop->id !=  $product->shop_id){
             return response()->json([
-                'status' => 401,
+                'status' => 403,
                 'message' => 'Trying to gain access with wrong credential'
             ]);
         }else{

@@ -51,9 +51,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
                 $router->patch('/{id}','ProductController@update');
                 $router->delete('/{id}','ProductController@destroy');
             });
-
         });
+    });
 
+    $router->group(['prefix' => 'images'], function () use ($router){
+        $router->patch('/images/{id}','ImageController@update');
+        $router->delete('/images/{id}','ImageController@delete');
     });
 
 

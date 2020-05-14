@@ -14,8 +14,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class ProductController extends Controller
 {
 
-
-
+    public function __construct()
+    {
+        $this->ImageController = new ImageController();
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,6 +27,9 @@ class ProductController extends Controller
     public function index()
     {
         $allProduct = Product::all();
+        $allProduct->map(function ($product){
+           return $product->image = $product->images()->first()->url;
+        });
         return response()->json([
             'status' => 200,
             'message' => 'All products successfully retrieved',
@@ -38,7 +43,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store (Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
         $cariToko = $user->shop;
@@ -49,13 +54,11 @@ class ProductController extends Controller
             'price' => $request->price,
             'description' => $request->description
         ]);
-        $newProduct->save();
-
-        $databaseProduct = Product::where('id',$newProduct->id)->first();
+        $this->ImageController->store($request,$newProduct->id);
         return response()->json([
             'status' => '200',
             'message' => 'You have successfully create a Product',
-            'data' => $databaseProduct
+            'data' => $newProduct
         ]);
     }
 
@@ -67,13 +70,14 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $getProduct = Product::where('id',$id)->first();
+        $getProduct = Product::find($id);
         if($getProduct == null){
             return response()->json([
                 'status' => 404,
                 'message' => 'The product you are trying to find is not available'
             ]);
         }else{
+            $getProduct->images = $getProduct->images();
             return response()->json([
                 'status' => 200,
                 'message' => 'Product found!',
@@ -180,8 +184,4 @@ class ProductController extends Controller
         ]);
     }
 
-    public function elasticSearch(Request $request){
-        $q = $request->input('q');
-
-    }
 }
